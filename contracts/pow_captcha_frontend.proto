@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package pow_captcha;
+
+// 前端验证服务
+service PoWCAPTCHAFrontend {
+  // 获取验证挑战（试卷）
+  rpc GetChallenge(ChallengeRequest) returns (ChallengeResponse) {}
+
+  // 提交答卷
+  rpc SubmitSolution(SolutionRequest) returns (SolutionResponse) {}
+}
+
+message ChallengeRequest {
+  string access_key_id = 1;
+}
+
+message ChallengeResponse {
+  Session exam_session = 1;
+  Challenge challenge = 2;
+}
+
+message SolutionRequest {
+  Session exam_session = 1;
+  Solution solution = 2;
+}
+
+message SolutionResponse {
+  string token = 1; // 证明设备完成了一份试卷的token
+}
+
+message Session {
+  string access_key_id = 1;
+  string access_key_secret = 2;
+}
+
+// 挑战内容
+message Challenge {
+  uint32 difficulty = 1; // 难度系数
+  bytes nonce = 2; // 随机数
+  int64 timestamp = 3; // 时间戳(Unix毫秒)
+}
+
+// 解题答案
+message Solution {
+  uint64 computed_nonce = 1; // 计算出的nonce值
+  bytes hash_result = 2; // 哈希结果
+}
