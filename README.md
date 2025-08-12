@@ -31,10 +31,10 @@ sequenceDiagram
 
   autonumber
   user ->> fe: 打开登录页
-  fe ->> fe_pow: 识别到登录api被保护<br>传入 Access Key ID、当前 action<br>加载 PoWCAPTCHA 小组件
+  fe ->> fe_pow: 识别到登录api被保护<br>传入 Access Key ID、当前 action（login）<br>加载 PoWCAPTCHA 小组件
   fe_pow ->> fe: 组件文案：🛡️此操作由 PoWCAPTCHA 保护，以防滥用
   Note left of fe_pow: 组件预先开始解决试卷<br>尽量避免用户主动为 PoWCAPTCHA 等待
-  fe_pow ->> PoWCAPTCHA: 带着Access Key ID、当前 action 请求验证
+  fe_pow ->> PoWCAPTCHA: 带着 PoWservice Access Key ID、当前 action 请求验证
   Note right of PoWCAPTCHA: 确认 当前请求网域<br/>在Access Key ID 允许的域名列表内
   user ->> fe: 用户开始输入用户名密码
   PoWCAPTCHA ->> PoWCAPTCHA: 生成试卷
@@ -78,7 +78,7 @@ sequenceDiagram
 
 ### Rust tokio 后端：直接使用 pow-captcha Crate
 
-若你网站就是用Rust写的后端，那你可以直接把 PoWCAPTCHA后端 集成到你的网站后端里面去。
+若你就是用 Rust tokio / 基于tokio的框架 写的后端，那你可以直接把 PoWCAPTCHA后端 集成到你的网站后端里面去。
 
 
 

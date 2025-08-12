@@ -12,7 +12,7 @@ service PoWCAPTCHAFrontend {
 }
 
 message ChallengeRequest {
-  string access_key_id = 1;
+  string powservice_access_key_id = 1;
 }
 
 message ChallengeResponse {
@@ -31,18 +31,19 @@ message SolutionResponse {
 
 message Session {
   string access_key_id = 1;
-  string access_key_secret = 2;
+  string access_key_secret = 2; 
 }
 
-// 挑战内容
+// 试卷内容
 message Challenge {
-  uint32 difficulty = 1; // 难度系数
-  bytes nonce = 2; // 随机数
-  int64 timestamp = 3; // 时间戳(Unix毫秒)
+  string algorithm = 1;     // 哈希算法（如"sha256"）
+  string base_data = 2;     // 基础数据（Base64编码的随机字节）
+  int32 difficulty = 3;     // 目标难度（要求的前导零位数）
+  int64 timestamp = 4;      // 挑战生成时间戳（防重放）
+  int32 expires_on  = 5;      // 过期时间
 }
 
 // 解题答案
 message Solution {
-  uint64 computed_nonce = 1; // 计算出的nonce值
-  bytes hash_result = 2; // 哈希结果
+  string nonce = 1;          // 找到的随机数（16进制字符串）
 }
