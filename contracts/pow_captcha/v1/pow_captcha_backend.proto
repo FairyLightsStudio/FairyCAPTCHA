@@ -1,21 +1,21 @@
 syntax = "proto3";
 
-package pow_captcha;
+package pow_captcha.v1;
 
 // 后端验证服务
-service PoWCAPTCHABackend {
+service PoWCAPTCHABackendService {
   // 验证token有效性
-  rpc ValidateToken(ValidationRequest) returns (ValidationResponse) {}
+  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse) {}
 }
 
 // === 请求/响应结构 ===
 
 // token验证请求
-message ValidationRequest {
+message ValidateTokenRequest {
   string token = 1; // 需要验证的令牌
 }
 
 // token验证响应
-message ValidationResponse {
+message ValidateTokenResponse {
   bool valid = 1; // 验证结果
 }

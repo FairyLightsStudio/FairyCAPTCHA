@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package pow_captcha.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// 前端验证服务
+service PoWCAPTCHAFrontendService {
+  // 获取验证挑战（试卷）
+  rpc GetChallenge(GetChallengeRequest) returns (GetChallengeResponse) {}
+
+  // 提交答卷
+  rpc SubmitSolution(SubmitSolutionRequest) returns (SubmitSolutionResponse) {}
+}
+
+message GetChallengeRequest {
+  string powservice_access_key_id = 1;
+}
+
+message GetChallengeResponse {
+  Session exam_session = 1;
+  Challenge challenge = 2;
+}
+
+message SubmitSolutionRequest {
+  Session exam_session = 1;
+  Solution solution = 2;
+}
+
+message SubmitSolutionResponse {
+  string token = 1; // 证明设备完成了一份试卷的token
+}
+
+message Session {
+  string access_key_id = 1;
+  string access_key_secret = 2;
+}
+
+// 试卷内容
+message Challenge {
+  string algorithm = 1; // 哈希算法（如"sha256"）
+  string base_data = 2; // 基础数据（Base64编码的随机字节）
+  int32 difficulty = 3; // 目标难度（要求的前导零位数）
+  google.protobuf.Timestamp timestamp = 4; // 挑战生成时间戳（防重放）
+  google.protobuf.Timestamp expires_on = 5; // 过期时间点
+}
+
+// 解题答案
+message Solution {
+  string nonce = 1; // 找到的随机数（16进制字符串）
+}

@@ -1,0 +1,7 @@
+version: v2
+
+modules:
+  - path: contracts
+    name: buf.build/fairy-lights-studio/pow-captcha
+# deps:
+#   - buf.build/googleapis/googleapis

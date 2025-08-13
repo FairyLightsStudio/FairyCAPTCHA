@@ -31,10 +31,10 @@ sequenceDiagram
 
   autonumber
   user ->> fe: 打开登录页
-  fe ->> fe_pow: 识别到登录api被保护<br>传入 Access Key ID、当前 action（login）<br>加载 PoWCAPTCHA 小组件
+  fe ->> fe_pow: 识别到登录api被保护<br>传入 Access Key ID、选填当前 action（login）<br>加载 PoWCAPTCHA 小组件
   fe_pow ->> fe: 组件文案：🛡️此操作由 PoWCAPTCHA 保护，以防滥用
   Note left of fe_pow: 组件预先开始解决试卷<br>尽量避免用户主动为 PoWCAPTCHA 等待
-  fe_pow ->> PoWCAPTCHA: 带着 PoWservice Access Key ID、当前 action 请求验证
+  fe_pow ->> PoWCAPTCHA: 带着 PoWservice Access Key ID、当前 action（如果有） 请求验证
   Note right of PoWCAPTCHA: 确认 当前请求网域<br/>在Access Key ID 允许的域名列表内
   user ->> fe: 用户开始输入用户名密码
   PoWCAPTCHA ->> PoWCAPTCHA: 生成试卷
