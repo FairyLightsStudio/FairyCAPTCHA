@@ -4,7 +4,7 @@ PoWCAPTCHA 是一款 使用 PoW 方案，通过要求用户设备支付一些它
 
 PoWCAPTCHA 受到 [Anubis](https://github.com/TecharoHQ/anubis) 的 [启发](http://anubis.techaro.lol/docs/design/why-proof-of-work/)。
 
-区别是，Anubis 是部署在web app前的、开箱即用的防火墙，本项目需要你改动已有项目，主动调用 PoWCAPTCHA 方可发挥作用。
+区别是，Anubis 是部署在web app前的、开箱即用的防火墙，而本项目需要你改动已有项目，主动调用 PoWCAPTCHA 方可发挥作用。
 
 ### 原理
 
@@ -98,4 +98,4 @@ pow-captcha Crate 提供以下函数：
 ## RoadMap
 
 - 探索使用 RandomX 算法 代替 SHA加密哈希函数 以取得更强抗ASIC特性的可能性
-
+- 收上来的算力目前仅用作保护服务，然后就作废了，确实很浪费。探索把 收上来的算力 投入其他地方（挖矿、BOINC科学计算等）的可能性。
