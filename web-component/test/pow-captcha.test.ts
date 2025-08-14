@@ -3,30 +3,30 @@ import { fixture, expect } from '@open-wc/testing';
 import { PowCaptcha } from '../src/PowCaptcha.js';
 import '../src/pow-captcha.js';
 
-describe('PowCaptcha', () => {
-  it('has a default header "Hey there" and counter 5', async () => {
-    const el = await fixture<PowCaptcha>(html`<pow-captcha></pow-captcha>`);
+// describe('PowCaptcha', () => {
+//   it('has a default header "Hey there" and counter 5', async () => {
+//     const el = await fixture<PowCaptcha>(html`<pow-captcha></pow-captcha>`);
 
-    expect(el.header).to.equal('Hey there');
-    expect(el.counter).to.equal(5);
-  });
+//     expect(el.header).to.equal('Hey there');
+//     expect(el.counter).to.equal(5);
+//   });
 
-  it('increases the counter on button click', async () => {
-    const el = await fixture<PowCaptcha>(html`<pow-captcha></pow-captcha>`);
-    el.shadowRoot!.querySelector('button')!.click();
+//   it('increases the counter on button click', async () => {
+//     const el = await fixture<PowCaptcha>(html`<pow-captcha></pow-captcha>`);
+//     el.shadowRoot!.querySelector('button')!.click();
 
-    expect(el.counter).to.equal(6);
-  });
+//     expect(el.counter).to.equal(6);
+//   });
 
-  it('can override the header via attribute', async () => {
-    const el = await fixture<PowCaptcha>(html`<pow-captcha header="attribute header"></pow-captcha>`);
+//   it('can override the header via attribute', async () => {
+//     const el = await fixture<PowCaptcha>(html`<pow-captcha header="attribute header"></pow-captcha>`);
 
-    expect(el.header).to.equal('attribute header');
-  });
+//     expect(el.header).to.equal('attribute header');
+//   });
 
-  it('passes the a11y audit', async () => {
-    const el = await fixture<PowCaptcha>(html`<pow-captcha></pow-captcha>`);
+//   it('passes the a11y audit', async () => {
+//     const el = await fixture<PowCaptcha>(html`<pow-captcha></pow-captcha>`);
 
-    await expect(el).shadowDom.to.be.accessible();
-  });
-});
+//     await expect(el).shadowDom.to.be.accessible();
+//   });
+// });

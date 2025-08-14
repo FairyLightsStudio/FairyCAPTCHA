@@ -5,26 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <style>
     body {
+      font-family: sans-serif;
       background: #fafafa;
+      padding: 2rem;
+    }
+    pow-captcha {
+      margin-bottom: 1rem;
+    }
+    #tokenOutput {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #eee;
+      border-radius: 4px;
+      word-break: break-all;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
-  <div id="demo"></div>
+  <h1>PoWCAPTCHA Demo</h1>
+  <p>This page demonstrates the PoWCAPTCHA web component.</p>
+
+  <!-- 
+    IMPORTANT: Replace "YOUR_ACCESS_KEY_ID" with your actual PoWService Access Key ID.
+    You can also specify a custom endpoint, e.g., endpoint="http://localhost:8080"
+  -->
+  <pow-captcha id="captcha" access-key-id="YOUR_ACCESS_KEY_ID"></pow-captcha>
+
+  <hr>
+
+  <button id="getTokenBtn">Get Protected Resource (Get Token)</button>
+
+  <h3>Received Token:</h3>
+  <pre id="tokenOutput">(Click the button above to get a token)</pre>
 
   <script type="module">
-    import { html, render } from 'lit';
+    // This import registers the custom element
     import '../dist/src/pow-captcha.js';
 
-    const header = 'Hello owc World!';
-    render(
-      html`
-        <pow-captcha .header=${header}>
-          some light-dom
-        </pow-captcha>
-      `,
-      document.querySelector('#demo')
-    );
+    const captchaElement = document.getElementById('captcha');
+    const getTokenBtn = document.getElementById('getTokenBtn');
+    const tokenOutput = document.getElementById('tokenOutput');
+
+    getTokenBtn.addEventListener('click', async () => {
+      tokenOutput.textContent = 'Getting token...';
+      try {
+        // In a real application, you would call this method before making a protected API call.
+        const token = await captchaElement.getToken();
+        tokenOutput.textContent = token;
+      } catch (error) {
+        console.error('Failed to get token:', error);
+        tokenOutput.textContent = `Error: ${error.message}`;
+      }
+    });
   </script>
 </body>
 </html>

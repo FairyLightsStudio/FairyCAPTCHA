@@ -1248,10 +1248,73 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@buf/fairy-lights-studio_pow-captcha.bufbuild_es@npm:2.6.3-20250813115031-67d480719485.1":
+  version: 2.6.3-20250813115031-67d480719485.1
+  resolution: "@buf/fairy-lights-studio_pow-captcha.bufbuild_es@npm:2.6.3-20250813115031-67d480719485.1"
+  peerDependencies:
+    "@bufbuild/protobuf": ^2.6.3
+  checksum: 10c0/70a58c9380f60c0c002f0faf8bac79330245de209557154d9da9ccbfcf89c62b11699db8de10143ed02885d37ff98627fc591333f6d931e1c1a1c51f988e8964
+  languageName: node
+  linkType: hard
+
+"@bufbuild/protobuf@npm:2.6.3, @bufbuild/protobuf@npm:^2.6.3":
+  version: 2.6.3
+  resolution: "@bufbuild/protobuf@npm:2.6.3"
+  checksum: 10c0/edbb89698f713f691f2807fdf8c2ef804a98a593e50c6c8d441dd36c35a2ac82d4da1bcfb15a93fbf8122a1fbba0e8414ae47c31c21dad74cad1fc5f0e1eb3d9
+  languageName: node
+  linkType: hard
+
+"@bufbuild/protoc-gen-es@npm:^2.6.3":
+  version: 2.6.3
+  resolution: "@bufbuild/protoc-gen-es@npm:2.6.3"
+  dependencies:
+    "@bufbuild/protobuf": "npm:2.6.3"
+    "@bufbuild/protoplugin": "npm:2.6.3"
+  peerDependencies:
+    "@bufbuild/protobuf": 2.6.3
+  peerDependenciesMeta:
+    "@bufbuild/protobuf":
+      optional: true
+  bin:
+    protoc-gen-es: bin/protoc-gen-es
+  checksum: 10c0/5ad0b619096a2bf56235ddf1f0c72477b33d1dfff50e60156c37630bbd825ce502e50ea7479695a2625ccf3284c1caa04de06e0e53882efceb603f6a30ab88ec
+  languageName: node
+  linkType: hard
+
+"@bufbuild/protoplugin@npm:2.6.3":
+  version: 2.6.3
+  resolution: "@bufbuild/protoplugin@npm:2.6.3"
+  dependencies:
+    "@bufbuild/protobuf": "npm:2.6.3"
+    "@typescript/vfs": "npm:^1.5.2"
+    typescript: "npm:5.4.5"
+  checksum: 10c0/4a140c22b3513dff3b33fbb895242f472a2fd1237687be53f96ca0d51825a37cec3a143151787b1f61726433a4e7a9358c306c1e7b8365b6b93be7309fec80b3
+  languageName: node
+  linkType: hard
+
 "@colors/colors@npm:1.5.0":
   version: 1.5.0
   resolution: "@colors/colors@npm:1.5.0"
   checksum: 10c0/eb42729851adca56d19a08e48d5a1e95efd2a32c55ae0323de8119052be0510d4b7a1611f2abcbf28c044a6c11e6b7d38f99fccdad7429300c37a8ea5fb95b44
+  languageName: node
+  linkType: hard
+
+"@connectrpc/connect-web@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@connectrpc/connect-web@npm:2.0.3"
+  peerDependencies:
+    "@bufbuild/protobuf": ^2.2.0
+    "@connectrpc/connect": 2.0.3
+  checksum: 10c0/ac4d5378229bb47be8107ff28c17fa0112470b8c7f5673e71609fb1a2704ec9d04d7e9ab2bb12ce7dfa234814eec221b21ff61225f4bed571e8beb06d48a1e62
+  languageName: node
+  linkType: hard
+
+"@connectrpc/connect@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@connectrpc/connect@npm:2.0.3"
+  peerDependencies:
+    "@bufbuild/protobuf": ^2.2.0
+  checksum: 10c0/5cc4ca04f7c500a04ec219e687ac883cdd78784e0e2a978e13801c9a018bd2d3972bf5b900325e896959838673a5a3fb55fb70b9bb3ddebff87cb43f9d99acf8
   languageName: node
   linkType: hard
 
@@ -4414,6 +4477,17 @@ __metadata:
     "@typescript-eslint/types": "npm:7.18.0"
     eslint-visitor-keys: "npm:^3.4.3"
   checksum: 10c0/538b645f8ff1d9debf264865c69a317074eaff0255e63d7407046176b0f6a6beba34a6c51d511f12444bae12a98c69891eb6f403c9f54c6c2e2849d1c1cb73c0
+  languageName: node
+  linkType: hard
+
+"@typescript/vfs@npm:^1.5.2":
+  version: 1.6.1
+  resolution: "@typescript/vfs@npm:1.6.1"
+  dependencies:
+    debug: "npm:^4.1.1"
+  peerDependencies:
+    typescript: "*"
+  checksum: 10c0/3878686aff4bf26813dad9242aa8e01c5c9734f4d37f31035f93e9c8b850f15ec6a4480f04cf3a3a1cbf78a4e796ae1be5d6c54f7f7c91556eafee913a8d0da4
   languageName: node
   linkType: hard
 
@@ -10914,6 +10988,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "pow-captcha@workspace:."
   dependencies:
+    "@buf/fairy-lights-studio_pow-captcha.bufbuild_es": "npm:2.6.3-20250813115031-67d480719485.1"
+    "@bufbuild/protobuf": "npm:^2.6.3"
+    "@bufbuild/protoc-gen-es": "npm:^2.6.3"
+    "@connectrpc/connect": "npm:^2.0.3"
+    "@connectrpc/connect-web": "npm:^2.0.3"
     "@custom-elements-manifest/analyzer": "npm:^0.10.3"
     "@open-wc/eslint-config": "npm:^12.0.3"
     "@open-wc/testing": "npm:^4.0.0"
@@ -10935,6 +11014,7 @@ __metadata:
     lint-staged: "npm:^15.2.7"
     lit: "npm:^3.1.4"
     prettier: "npm:^3.3.2"
+    rxjs: "npm:^7.8.2"
     storybook: "npm:^7.6.20"
     tslib: "npm:^2.6.3"
     typescript: "npm:^5.5.3"
@@ -11674,7 +11754,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.8.1":
+"rxjs@npm:^7.8.1, rxjs@npm:^7.8.2":
   version: 7.8.2
   resolution: "rxjs@npm:7.8.2"
   dependencies:
@@ -12792,6 +12872,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:5.4.5, typescript@npm:~5.4.2":
+  version: 5.4.5
+  resolution: "typescript@npm:5.4.5"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/2954022ada340fd3d6a9e2b8e534f65d57c92d5f3989a263754a78aba549f7e6529acc1921913560a4b816c46dce7df4a4d29f9f11a3dc0d4213bb76d043251e
+  languageName: node
+  linkType: hard
+
 "typescript@npm:^5.5.3":
   version: 5.9.2
   resolution: "typescript@npm:5.9.2"
@@ -12802,13 +12892,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~5.4.2":
+"typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A~5.4.2#optional!builtin<compat/typescript>":
   version: 5.4.5
-  resolution: "typescript@npm:5.4.5"
+  resolution: "typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/2954022ada340fd3d6a9e2b8e534f65d57c92d5f3989a263754a78aba549f7e6529acc1921913560a4b816c46dce7df4a4d29f9f11a3dc0d4213bb76d043251e
+  checksum: 10c0/db2ad2a16ca829f50427eeb1da155e7a45e598eec7b086d8b4e8ba44e5a235f758e606d681c66992230d3fc3b8995865e5fd0b22a2c95486d0b3200f83072ec9
   languageName: node
   linkType: hard
 
@@ -12819,16 +12909,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/34d2a8e23eb8e0d1875072064d5e1d9c102e0bdce56a10a25c0b917b8aa9001a9cf5c225df12497e99da107dc379360bc138163c66b55b95f5b105b50578067e
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A~5.4.2#optional!builtin<compat/typescript>":
-  version: 5.4.5
-  resolution: "typescript@patch:typescript@npm%3A5.4.5#optional!builtin<compat/typescript>::version=5.4.5&hash=5adc0c"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/db2ad2a16ca829f50427eeb1da155e7a45e598eec7b086d8b4e8ba44e5a235f758e606d681c66992230d3fc3b8995865e5fd0b22a2c95486d0b3200f83072ec9
   languageName: node
   linkType: hard
 

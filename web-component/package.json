@@ -25,9 +25,15 @@
     "storybook:build": "tsc && npm run analyze -- --exclude dist && storybook build"
   },
   "dependencies": {
-    "lit": "^3.1.4"
+    "@buf/fairy-lights-studio_pow-captcha.bufbuild_es": "2.6.3-20250813115031-67d480719485.1",
+    "@bufbuild/protobuf": "^2.6.3",
+    "@connectrpc/connect": "^2.0.3",
+    "@connectrpc/connect-web": "^2.0.3",
+    "lit": "^3.1.4",
+    "rxjs": "^7.8.2"
   },
   "devDependencies": {
+    "@bufbuild/protoc-gen-es": "^2.6.3",
     "@custom-elements-manifest/analyzer": "^0.10.3",
     "@open-wc/eslint-config": "^12.0.3",
     "@open-wc/testing": "^4.0.0",

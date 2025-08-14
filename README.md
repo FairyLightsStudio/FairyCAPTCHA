@@ -19,7 +19,7 @@ PoWCAPTCHA 受到 [Anubis](https://github.com/TecharoHQ/anubis) 的 [启发](htt
 - ...
 
 
-## 快速上手
+## 👀架构一览
 
 ```mermaid
 sequenceDiagram
@@ -74,26 +74,11 @@ sequenceDiagram
 
 > 为方便大家理解，把 Challenge 比作了试卷、Solution 比作了答卷
 
-以下提供两种方法让你的项目集成 PoWCAPTCHA，选择最合适的那个。
+## ⬇️ 为你的网站部署 PoWCAPTCHA
 
-### Rust tokio 后端：直接使用 pow-captcha Crate
+以下文件假定你已经看完了 👀架构一览 。
 
-若你就是用 Rust tokio / 基于tokio的框架 写的后端，那你可以直接把 PoWCAPTCHA后端 集成到你的网站后端里面去。
-
-
-
-引用 [Crates/pow-captcha](https://crates.io/crates/pow-captcha) 到你的项目。
-
-pow-captcha Crate 提供以下函数：
-
-- 生成试卷
-- 检查答卷是否正确
-- 
-
-
-### 其他后端：通过 RPC 使用 PoWCAPTCHA
-你也可以单独运行本项目，后端和
-
+[INSTALL.md](./INSTALL.md)
 
 ## RoadMap
 
