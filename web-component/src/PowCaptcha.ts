@@ -99,7 +99,7 @@ export class PowCaptcha extends LitElement {
       throw new Error('Invalid challenge response');
     }
 
-    const nonce = await this._findNonce(challenge);
+    const nonce = await this._findNonceWithWorkers(challenge);
 
     const { token } = await this.rpcClient.submitSolution({
       examSession,
@@ -132,34 +132,55 @@ export class PowCaptcha extends LitElement {
     );
   }
 
-  private async _findNonce(challenge: Challenge): Promise<string> {
-    const { baseData, difficulty, timestamp } = challenge;
-    if (!timestamp) {
-      throw new Error('Challenge timestamp is missing');
-    }
+  private _findNonceWithWorkers(challenge: Challenge): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const workerCount = navigator.hardwareConcurrency / 2  || 4; // Use 4 as a fallback
+      const workers: Worker[] = [];
 
-    const targetPrefix = '0'.repeat(difficulty);
-    const encoder = new TextEncoder();
-    const challengeTimestamp = timestampDate(timestamp).toISOString();
+      for (let i = 0; i < workerCount; i += 1) {
+        // Using `new URL` is a modern way to ensure bundlers can handle workers.
+        const worker = new Worker(new URL('./pow.worker.ts', import.meta.url), {
+          type: 'module',
+        });
+        workers.push(worker);
 
-    let nonce = 0;
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const nonceHex = nonce.toString(16);
-      const dataToHash = `${baseData}:${challengeTimestamp}:${nonceHex}`;
-      const data = encoder.encode(dataToHash);
-      // eslint-disable-next-line no-await-in-loop
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray
-        .map(b => b.toString(16).padStart(2, '0'))
-        .join('');
+        worker.onmessage = e => {
+          if (e.data.nonce) {
+            // Once one worker finds the solution, terminate all others and resolve.
+            workers.forEach(w => w.terminate());
+            resolve(e.data.nonce);
+          } else if (e.data.error) {
+            workers.forEach(w => w.terminate());
+            reject(new Error(e.data.error));
+          }
+        };
 
-      if (hashHex.startsWith(targetPrefix)) {
-        return nonceHex;
+        worker.onerror = e => {
+          // Terminate all workers on any error and reject the promise.
+          workers.forEach(w => w.terminate());
+          reject(new Error(`Worker error: ${e.message}`));
+        };
+
+        // The challenge object from protobuf cannot be cloned directly into a worker.
+        // We need to send a plain object representation.
+        const plainChallenge = {
+          baseData: challenge.baseData,
+          difficulty: challenge.difficulty,
+          timestamp: challenge.timestamp
+            ? {
+                seconds: challenge.timestamp.seconds,
+                nanos: challenge.timestamp.nanos,
+              }
+            : undefined,
+        };
+
+        worker.postMessage({
+          challenge: plainChallenge,
+          workerId: i,
+          workerCount,
+        });
       }
-      nonce += 1;
-    }
+    });
   }
 
   render() {
