@@ -1736,7 +1736,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "pow-captcha"
+name = "pow-captcha-core"
 version = "0.2.0"
 dependencies = [
  "hex",

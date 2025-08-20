@@ -11,11 +11,10 @@
 
 ## Usage
 
-Add this to your `Cargo.toml`:
+Add the dependency:
 
-```toml
-[dependencies]
-pow-captcha-core = "0.1.0"
+```bash
+cargo add pow-captcha-core
 ```
 
 ### Example
@@ -36,3 +35,7 @@ assert!(verify_solution(&challenge, &solution));
 ## License
 
 This project is licensed under the MIT License.
+
+## RoadMap
+
+- [ ]  Explore the possibility of adding RandomX algorithm support for stronger anti-ASIC properties
