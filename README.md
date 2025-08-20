@@ -1,6 +1,6 @@
 # PoWCAPTCHA
 
-PoWCAPTCHA 是一款 使用 PoW 方案，通过要求用户设备支付一些它的算力，起到防御 特别暴力的DoS攻击 的效果的开源、开放的验证码模块。
+PoWCAPTCHA web2.0 是一款 使用 PoW 方案，通过要求用户设备支付一些它的算力，起到防御 特别暴力的DoS攻击 的效果的开源、开放的验证码模块。
 
 PoWCAPTCHA 受到 [Anubis](https://github.com/TecharoHQ/anubis) 的 [启发](http://anubis.techaro.lol/docs/design/why-proof-of-work/)。
 

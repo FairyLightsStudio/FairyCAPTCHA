@@ -1,5 +1,4 @@
-本文件假定你已经看完了 [ 👀架构一览 ](./README.md)。
-
+本文件假定你已经看完了 [ README ](./README.md)。
 
 安装分两步：
 
@@ -13,8 +12,7 @@
 
 ### 在后端集成 PoWCAPTCHA
 
-
-#### 通过 RPC 使用 PoWCAPTCHA
+#### 通过 gRPC 使用 PoWCAPTCHA
 
 你可以单独运行本项目的后端。
 

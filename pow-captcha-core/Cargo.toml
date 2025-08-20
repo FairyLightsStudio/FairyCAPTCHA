@@ -1,0 +1,15 @@
+[package]
+name = "pow-captcha"
+version = "0.1.0"
+edition.workspace = true
+license = "MIT"
+authors = ["FairyLightsStudio"]
+description = "A simple, lightweight, and dependency-free Proof-of-Work (PoW) CAPTCHA library for Rust."
+repository = "https://github.com/FairyLightsStudio/PoWCAPTCHA/blob/main/pow-captcha-core"
+readme = "README.md"
+keywords = ["pow", "captcha", "proof-of-work", "security"]
+
+[dependencies]
+sha2 = "0.10.9"
+hex = "0.4.3"
+rand = "0.8.5"
