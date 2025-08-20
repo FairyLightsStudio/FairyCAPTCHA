@@ -34,7 +34,7 @@ assert!(verify_solution(&challenge, &solution));
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed to you under the MIT License.
 
 ## RoadMap
 
