@@ -28,7 +28,7 @@ export class PowCaptcha extends LitElement {
    * The backend endpoint for the PoWCAPTCHA service.
    */
   @property({ type: String })
-  endpoint = 'https://pow-captcha.fly.dev';
+  endpoint = 'https://localhost:8080';
 
   @state()
   private status: Status = 'initializing';

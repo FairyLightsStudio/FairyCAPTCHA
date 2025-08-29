@@ -5,6 +5,14 @@ edition.workspace = true
 
 [dependencies]
 volo-gen = { path = "../volo-gen" }
+pow-captcha-core = { path = "../pow-captcha-core" }
+
+rand = "0.8.5"
+uuid = { version = "1.10.0", features = ["v4", "serde"] }
+hex = "0.4.3"
+time = "0.3.36"
+thiserror = "1.0"
+async-trait = "0.1"
 
 volo.workspace = true
 volo-grpc.workspace = true
@@ -12,6 +20,9 @@ pilota.workspace = true
 
 anyhow.workspace = true
 tokio = { workspace = true, features = ["full"] }
+sqlx =  { workspace = true, features = ["postgres","time","json","uuid","runtime-tokio"] }
+config = "0.15.14"
+serde = "1.0.219"
 
 [profile.release]
 opt-level = 3

@@ -8,11 +8,25 @@
 
 ### 在前端集成 PoWCAPTCHA Web Component
 
+#### 
 
+#### 
 
 ### 在后端集成 PoWCAPTCHA
 
-#### 通过 gRPC 使用 PoWCAPTCHA
+#### 1. 运行 PoWCAPTCHA后端
 
-你可以单独运行本项目的后端。
+你可以自己部署本项目的后端。
+
+后端使用环境变量配置。
+
+```
+# 必填项
+POWCAPTCHA_SERVICE_DATABASE_URL="postgres://sqlx:sqls0302@localhost"
+
+# 选填，默认为 "[::]:8080"
+POWCAPTCHA_SERVICE_ADDRESS="[::]:8080"
+```
+
+#### 通过 gRPC 调用 PoWCAPTCHA后端
 
