@@ -1,0 +1,11 @@
+rust_library(
+    name = "pow-captcha-core",
+    srcs = glob(["src/**/*.rs"]),
+    crate_root = "src/lib.rs",
+    visibility = ["PUBLIC"],
+    deps = [
+        "root//third-party/rust:hex",
+        "root//third-party/rust:rand-08",
+        "root//third-party/rust:sha2",
+    ],
+)
