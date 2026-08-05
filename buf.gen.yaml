@@ -1,0 +1,19 @@
+version: v2
+plugins:
+  - local: protoc-gen-buffa
+    out: pow-captcha-server/src/gen/buffa
+    opt:
+      - views=true
+      - json=true
+  - local: protoc-gen-buffa-packaging
+    out: pow-captcha-server/src/gen/buffa
+    strategy: all
+  - local: protoc-gen-connect-rust
+    out: pow-captcha-server/src/gen/connect
+    opt:
+      - extern_path=.=crate::proto
+  - local: protoc-gen-buffa-packaging
+    out: pow-captcha-server/src/gen/connect
+    strategy: all
+    opt:
+      - filter=services

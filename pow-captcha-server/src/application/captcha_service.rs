@@ -8,7 +8,7 @@ use uuid::Uuid;
 
 use crate::domain::{ExamSession, ExamSessionRepository, WorkProofToken, WorkProofTokenRepository};
 use crate::error::AppError;
-use volo_gen::pow_captcha::v1::{GetChallengeResponse, SubmitSolutionResponse, ValidateTokenResponse, Session, Challenge};
+use crate::proto::pow_captcha::v1::{GetChallengeResponse, SubmitSolutionResponse, ValidateTokenResponse, Session, Challenge};
 
 pub struct CaptchaService<ESR, WPR>
 where
@@ -62,11 +62,11 @@ where
             algorithm: "sha256".into(),
             base_data: core_challenge.puzzle.into(),
             difficulty: core_challenge.difficulty as i32,
-            timestamp: Some(volo_gen::google::protobuf::Timestamp {
+            timestamp: Some(prost_types::Timestamp {
                 seconds: created_session.created_at.unix_timestamp(),
                 nanos: 0,
             }),
-            expires_on: Some(volo_gen::google::protobuf::Timestamp {
+            expires_on: Some(prost_types::Timestamp {
                 seconds: created_session.expires_at.unix_timestamp(),
                 nanos: 0,
             }),

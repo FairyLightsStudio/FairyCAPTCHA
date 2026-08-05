@@ -1,18 +1,14 @@
 [workspace]
-members = ["volo-gen", "pow-captcha-server", "pow-captcha-core"]
+members = ["pow-captcha-server", "pow-captcha-core"]
 resolver = "3"
-
 [workspace.package]
+version = "0.1.0"
 edition = "2024"
 
 [workspace.dependencies]
-# we recommend to use the latest framework version for new features and bug fixes
-volo = "*"
-volo-build = "*"
-volo-grpc = "*"
-pilota = "*"
-
-anyhow = "1"
+exn = "0.3"
 futures = "0.3"
 tokio = "1"
 sqlx = "0.8"
+rand = "0.8"
+uuid = "1"

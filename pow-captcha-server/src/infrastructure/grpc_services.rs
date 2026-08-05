@@ -1,12 +1,12 @@
 use std::sync::Arc;
 
+use buffa::view::OwnedView;
+use connectrpc::{RequestContext, Response, ServiceResult};
+
 use crate::application::captcha_service::CaptchaService;
 use crate::domain::{ExamSessionRepository, WorkProofTokenRepository};
 use crate::error::AppError;
-use volo_gen::pow_captcha::v1::{
-    GetChallengeRequest, GetChallengeResponse, PoWcaptchaBackendService, PoWcaptchaFrontendService,
-    SubmitSolutionRequest, SubmitSolutionResponse, ValidateTokenRequest, ValidateTokenResponse,
-};
+use crate::proto::pow_captcha::v1::*;
 
 pub struct GrpcService<ESR, WPR>
 where
@@ -45,32 +45,38 @@ where
 {
     async fn get_challenge(
         &self,
-        _req: ::volo_grpc::Request<GetChallengeRequest>,
-    ) -> ::std::result::Result<::volo_grpc::Response<GetChallengeResponse>, ::volo_grpc::Status>
-    {
-        let result = self.captcha_service.get_challenge().await;
-        result
-            .map(|resp| ::volo_grpc::Response::new(resp))
+        _ctx: RequestContext,
+        _req: OwnedView<GetChallengeRequestView<'static>>,
+    ) -> ServiceResult<GetChallengeResponse> {
+        self.captcha_service
+            .get_challenge()
+            .await
+            .map(Response::ok)
             .map_err(AppError::into)
     }
 
     async fn submit_solution(
         &self,
-        req: ::volo_grpc::Request<SubmitSolutionRequest>,
-    ) -> ::std::result::Result<::volo_grpc::Response<SubmitSolutionResponse>, ::volo_grpc::Status>
-    {
-        let req = req.get_ref();
-        let exam_session = req.exam_session.as_ref().ok_or_else(|| ::volo_grpc::Status::invalid_argument("Missing exam_session"))?;
-        let solution = req.solution.as_ref().ok_or_else(|| ::volo_grpc::Status::invalid_argument("Missing solution"))?;
+        _ctx: RequestContext,
+        req: OwnedView<SubmitSolutionRequestView<'static>>,
+    ) -> ServiceResult<SubmitSolutionResponse> {
+        let exam_session = req
+            .exam_session
+            .as_ref()
+            .ok_or_else(|| AppError::InvalidArgument("Missing exam_session".into()))?;
+        let solution = req
+            .solution
+            .as_ref()
+            .ok_or_else(|| AppError::InvalidArgument("Missing solution".into()))?;
 
-        let result = self.captcha_service.submit_solution(
-            &exam_session.access_key_id,
-            &exam_session.access_key_secret,
-            &solution.nonce,
-        ).await;
-
-        result
-            .map(|resp| ::volo_grpc::Response::new(resp))
+        self.captcha_service
+            .submit_solution(
+                &exam_session.access_key_id,
+                &exam_session.access_key_secret,
+                &solution.nonce,
+            )
+            .await
+            .map(Response::ok)
             .map_err(AppError::into)
     }
 }
@@ -82,13 +88,13 @@ where
 {
     async fn validate_token(
         &self,
-        req: ::volo_grpc::Request<ValidateTokenRequest>,
-    ) -> ::std::result::Result<::volo_grpc::Response<ValidateTokenResponse>, ::volo_grpc::Status>
-    {
-        let token = &req.get_ref().token;
-        let result = self.captcha_service.validate_token(token).await;
-        result
-            .map(|resp| ::volo_grpc::Response::new(resp))
+        _ctx: RequestContext,
+        req: OwnedView<ValidateTokenRequestView<'static>>,
+    ) -> ServiceResult<ValidateTokenResponse> {
+        self.captcha_service
+            .validate_token(&req.token)
+            .await
+            .map(Response::ok)
             .map_err(AppError::into)
     }
 }

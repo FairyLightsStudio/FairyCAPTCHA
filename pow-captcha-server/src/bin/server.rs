@@ -1,55 +1,88 @@
 use std::net::SocketAddr;
+use std::sync::Arc;
 
+use connectrpc::Router;
 use sqlx::postgres::PgPoolOptions;
-use volo_grpc::server::{Server, ServiceBuilder};
 
 use pow_captcha::S;
 use serde::Deserialize;
-use anyhow::{Context, Result};
+
+use pow_captcha::proto::pow_captcha::v1::{
+    PoWcaptchaBackendService, PoWcaptchaFrontendService,
+};
+
+#[derive(Debug)]
+struct ServerError(String);
+
+impl core::fmt::Display for ServerError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl core::error::Error for ServerError {}
 
 #[derive(Deserialize)]
 struct AppConfig {
     database: DBConfig,
     address: String,
 }
+
 #[derive(Deserialize)]
 struct DBConfig {
-    url: String
+    url: String,
 }
 
-#[volo::main]
-async fn main() -> Result<()> {
-
+#[tokio::main]
+async fn main() -> exn::Result<(), ServerError> {
+    use exn::ResultExt;
 
     let settings = config::Config::builder()
-        .set_default("address", "[::]:8080")?
+        .set_default("address", "[::]:8080")
+        .or_raise(|| ServerError("Failed to set default value".into()))?
         .add_source(config::Environment::with_prefix("POWCAPTCHA_SERVICE").separator("_"))
         .build()
-       .unwrap();
+        .or_raise(|| ServerError("Failed to build config".into()))?;
 
+    let app_config: AppConfig = settings
+        .try_deserialize()
+        .or_raise(|| ServerError("Failed to load configuration from environment variable".into()))?;
 
-    let app_config: AppConfig = settings.try_deserialize().context("Failed to load configuration from environment variable")?;
-    
-    let addr: SocketAddr = app_config.address.parse().context(format!("address {} not valid", app_config.address))?;
-    let addr = volo::net::Address::from(addr);
+    let addr: SocketAddr = app_config
+        .address
+        .parse()
+        .or_raise(|| {
+            ServerError(format!("Address {} is not valid", app_config.address))
+        })?;
 
     let db_pool = PgPoolOptions::new()
-    .connect(&app_config.database.url).await.context(format!("database {} connect failed", app_config.database.url))?;
-
-    let service = S::new(db_pool);
-
-    Server::new()
-        .add_service(
-            ServiceBuilder::new(volo_gen::pow_captcha::v1::PoWcaptchaBackendServiceServer::new(service.clone()))
-                .build(),
-        )
-        .add_service(
-            ServiceBuilder::new(volo_gen::pow_captcha::v1::PoWcaptchaFrontendServiceServer::new(service))
-                .build(),
-        )
-        .run(addr)
+        .connect(&app_config.database.url)
         .await
-        .unwrap();
-    
+        .or_raise(|| {
+            ServerError(format!(
+                "Database {} connect failed",
+                app_config.database.url
+            ))
+        })?;
+
+    let service = Arc::new(S::new(db_pool));
+
+    let backend_svc = service.clone();
+    let frontend_svc = service;
+
+    let router = Router::new()
+        .register(PoWcaptchaBackendService::register(backend_svc))
+        .register(PoWcaptchaFrontendService::register(frontend_svc));
+
+    let app = router.into_axum_router();
+
+    let listener = tokio::net::TcpListener::bind(addr)
+        .await
+        .or_raise(|| ServerError(format!("Failed to bind to {}", addr)))?;
+
+    axum::serve(listener, app)
+        .await
+        .or_raise(|| ServerError("Server error".into()))?;
+
     Ok(())
 }
